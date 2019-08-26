@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
+import { connect } from 'react-redux';
+import { SendMessage, ClearMessage } from '../store/actions/index';
 
 class Contact extends Component {
+    state = {
+        msgdone: false
+    }
 
-    handleSubmit = () => {
-        console.log(values);
-        actions.setSubmitting(false);
-        actions.resetForm();
+    handleSubmit = (values,actions) => {
+        this.props.dispatch(SendMessage(values)).then(()=>{
+            this.setState({
+                msgdone: true
+            });
+            actions.setSubmitting(false);
+            actions.resetForm();
+        });
     }
 
     handleRules = (values) => {
@@ -24,7 +33,9 @@ class Contact extends Component {
         return errors;
     }
 
-
+    componentWillUnMount(){
+        this.props.dispatch(ClearMessage())
+    }
 
     render() {
         return (
@@ -35,88 +46,100 @@ class Contact extends Component {
                 <div className="content_wrapper">
                     <div className="inner">
                         <h1>Feel Free to contact Us</h1>
-                        <Formik
-                            initialValues={{name:'', email:'', message:''}}
-                            validate={ (values)=> this.handleRules(values) }
-                            onSubmit={ (values, actions)=> this.handleSubmit(values,actions) }
-                        >
-                            {({
-                                errors,
-                                values,
-                                handleSubmit,
-                                handleChange,
-                                isSubmitting,
-                                handleBlur,
-                                touched
-                            }) => (
-                                <form onSubmit={handleSubmit}>
-                                    <div className="form-group">
-                                        <label>Name</label>
-                                        <input 
-                                            type="text"
-                                            className="form-control"
-                                            name="name"
-                                            placeholder="Enter your name here"
-                                            value={values.name}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                        />
-                                        { errors.name && touched.name ? 
-                                            
-                                            <div className="error_label">
-                                                {errors.name}
-                                            </div>
-                                        :null}
-                                    </div>
 
-                                    <div className="form-group">
-                                        <label>Email</label>
-                                        <input 
-                                            type="text"
-                                            className="form-control"
-                                            name="email"
-                                            placeholder="Enter your email here"
-                                            value={values.email}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                        />
-                                        { errors.email && touched.email ? 
-                                            
-                                            <div className="error_label">
-                                                {errors.email}
-                                            </div>
-                                        :null}
-                                    </div>
+                        { !this.state.msgdone ?
+                        
+                            
+                    <Formik
+                        initialValues={{name:'', email:'', message:''}}
+                        validate={ (values)=> this.handleRules(values) }
+                        onSubmit={ (values, actions)=> this.handleSubmit(values,actions) }
+                    >
+                        {({
+                            errors,
+                            values,
+                            handleSubmit,
+                            handleChange,
+                            isSubmitting,
+                            handleBlur,
+                            touched
+                        }) => (
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <label>Name</label>
+                                    <input 
+                                        type="text"
+                                        className="form-control"
+                                        name="name"
+                                        placeholder="Enter your name here"
+                                        value={values.name}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                    />
+                                    { errors.name && touched.name ? 
+                                        
+                                        <div className="error_label">
+                                            {errors.name}
+                                        </div>
+                                    :null}
+                                </div>
 
-                                    <div className="form-group">
-                                        <label>Write a message right here</label>
-                                        <textarea
-                                            className="form-control"
-                                            name="message"
-                                            placeholder="your message"
-                                            value={values.message}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                        ></textarea>
-                                        { errors.message && touched.message ? 
-                                            
-                                            <div className="error_label">
-                                                {errors.message}
-                                            </div>
-                                        :null}
-                                    </div>
-                                    
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        disabled={isSubmitting}
-                                    >
-                                        Submit
-                                    </button>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input 
+                                        type="text"
+                                        className="form-control"
+                                        name="email"
+                                        placeholder="Enter your email here"
+                                        value={values.email}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                    />
+                                    { errors.email && touched.email ? 
+                                        
+                                        <div className="error_label">
+                                            {errors.email}
+                                        </div>
+                                    :null}
+                                </div>
 
-                                </form>
-                            )}
-                        </Formik>
+                                <div className="form-group">
+                                    <label>Write a message right here</label>
+                                    <textarea
+                                        className="form-control"
+                                        name="message"
+                                        placeholder="your message"
+                                        value={values.message}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                    ></textarea>
+                                    { errors.message && touched.message ? 
+                                        
+                                        <div className="error_label">
+                                            {errors.message}
+                                        </div>
+                                    :null}
+                                </div>
+                                
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={isSubmitting}
+                                >
+                                    Submit
+                                </button>
+
+                            </form>
+                        )}
+                    </Formik>
+                        : 
+                        <div>
+                            We will contact you shortly.
+                        </div>
+                        
+                        }
+
+
                     </div>
                 </div>
             </>
@@ -124,4 +147,8 @@ class Contact extends Component {
     }
 }
 
-export default Contact;
+const mapStateToProps = (state) => {
+    return {msg: state.msg}
+}
+
+export default connect(mapStateToProps)(Contact);

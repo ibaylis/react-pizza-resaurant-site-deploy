@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import auth0Serv from '../../lib/appAuth';
 
 const Header = () => (
     <>
@@ -45,6 +46,14 @@ const Header = () => (
                         </ul>
                     </nav>
                 </div>
+                <div
+                    className="login_btn"
+                    onClick={()=> auth0Serv.login()}
+                >
+                    <span>User area</span>
+
+                </div>
+
             </div>
         </header>
     </>

@@ -7,7 +7,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({dev});
 const handle = app.getRequestHandler();
 
-mongoose.connect("mongodb+srv://ibaylis:fencer1@pizza-nextjs-site-50iwu.mongodb.net/pizzaSite?retryWrites=true&w=majority", { useNewUrlParser:true})
+mongoose.connect(process.env.MONGO_SERV, { useNewUrlParser:true})
         .then(() => {
             console.log('connected')
         }).catch(err => console.log(err))
@@ -62,7 +62,18 @@ app.prepare()
             })
         })
 
+///// START MESSAGE /////
+        server.post('/api/v1/messages',(req,res)=>{
+            const msgData = req.body;
+            const messages = new Messages(msgData);
 
+            messages.save((err,message)=>{
+                if(err) { return res.status(422).send(err) }
+                return res.json({status:'DONE'})
+            })
+        })
+
+///// END MESSAGE /////
 
 
 
