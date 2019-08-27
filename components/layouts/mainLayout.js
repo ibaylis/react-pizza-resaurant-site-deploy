@@ -14,7 +14,7 @@ const MainLayout = (props) => (
 
         </Head>
         <div className="mainLayout_container">
-            <Header />
+            <Header {...props} />
             <div className="main_container">
                 {props.children}
             </div>

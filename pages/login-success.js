@@ -11,6 +11,14 @@ class LoginSuccess extends Component {
         error: false
     }
 
+    componentDidMount(){
+        auth0Serv.handleAuthentication().then(()=>{
+            Router.push('/admin')
+        }).catch((err)=>{
+            this.setState({error: true})
+        })
+    }
+
     render(){
         return(
             <>
