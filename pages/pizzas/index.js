@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig;
+
+
 class Pizzas extends Component {
     static async getInitialProps({query}) {
         let pizzaData;
         
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/pizza/${query.pizzaName}`)
+            const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/pizza/${query.pizzaName}`)
             pizzaData = response.data[0];
         } catch {
             console.error('Error')

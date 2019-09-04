@@ -8,13 +8,14 @@ import MainLayout from '../components/layouts/mainLayout';
 class MyApp extends App {
 
     render() {
-        const { Component, pageProps, reduxStore, siteData, userAuth } = this.props;
+        const { Component, pageProps, reduxStore, siteData, userAuth, baseUrl } = this.props;
 
         return (
             <Container>
                 <Provider store={reduxStore}>
                     <MainLayout
-                             userAuth={userAuth}                   
+                             userAuth={userAuth}       
+                             baseUrl={baseUrl}            
                     >
                         <Component 
                             {...pageProps} 
