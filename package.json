@@ -10,6 +10,7 @@
     "dev": "nodemon -w server/server.js server/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server/server.js",
+    "heroku-prebuild": "npm i -f",
     "heroku-postbuild": "npm run build"
   },
   "author": "",
