@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 const Featured = (props) => {
+    
     const showFeatured = () => (
         props.pizzas.map(pizza => {
             if(pizza.pod == true){

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+
 import auth0Serv from '../../lib/appAuth';
 
 const Header = (props) => (

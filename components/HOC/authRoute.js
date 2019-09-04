@@ -8,7 +8,7 @@ export default function(Component){
             if(Component.getInitialProps){
                 pageProps = await Component.getInitialProps(ctx)
             }
-            return {...pageProps}
+            return {...pageProps};
         }
 
         renderPage = () => (
