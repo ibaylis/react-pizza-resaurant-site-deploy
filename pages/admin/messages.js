@@ -7,10 +7,9 @@ import { getCookies } from '../../lib/utils';
 
 import { connect } from 'react-redux';
 import { DeleteMessage } from '../../store/actions/index';
-import { connect } from 'http2';
 
 import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig;
+const { publicRuntimeConfig } = getConfig();
 
 class AdminMeessages extends Component {
     static async getInitialProps({req}){
@@ -57,7 +56,7 @@ class AdminMeessages extends Component {
                     </div>
                     <div className="tag"><span>Name:</span>{message.name}</div>
                     <div className="tag"><span>Email:</span>{message.email}</div>
-                    <div className="tag">
+                    <div className="msg_wrap">
                         <div className="tag"><span>Message:</span></div>
                         <div>
                             {message.message}
