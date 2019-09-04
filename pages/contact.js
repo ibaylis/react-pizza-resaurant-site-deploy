@@ -9,13 +9,10 @@ class Contact extends Component {
     }
 
     handleSubmit = (values,actions) => {
+        
         this.props.dispatch(SendMessage(values)).then(()=>{
             this.setState({
-<<<<<<< HEAD
                 msgdone: true
-=======
-                msdone: true
->>>>>>> b10d35b40857961dcedf1a5d06cfa29b547b519f
             });
             actions.setSubmitting(false);
             actions.resetForm();
@@ -54,15 +51,11 @@ class Contact extends Component {
                         { !this.state.msgdone ?
                         
                             
-<<<<<<< HEAD
-                    <Formik
-=======
                         <Formik
->>>>>>> b10d35b40857961dcedf1a5d06cfa29b547b519f
-                        initialValues={{name:'', email:'', message:''}}
-                        validate={ (values)=> this.handleRules(values) }
-                        onSubmit={ (values, actions)=> this.handleSubmit(values,actions) }
-                    >
+                            initialValues={{name:'', email:'', message:''}}
+                            validate={ (values)=> this.handleRules(values) }
+                            onSubmit={ (values, actions)=> this.handleSubmit(values,actions) }
+                        >
                         {({
                             errors,
                             values,
@@ -142,11 +135,7 @@ class Contact extends Component {
                     </Formik>
                         : 
                         <div>
-<<<<<<< HEAD
-                            We will contact you shortly.
-=======
-                            We will contact you shortly
->>>>>>> b10d35b40857961dcedf1a5d06cfa29b547b519f
+                            <p>We will contact you shortly</p>
                         </div>
                         
                         }
