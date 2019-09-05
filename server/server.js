@@ -3,7 +3,7 @@ const next = require('next');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const compression = require('compression')
+const compression = require('compression');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({dev});

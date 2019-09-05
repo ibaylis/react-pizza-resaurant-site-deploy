@@ -10,7 +10,8 @@ class Pizzas extends Component {
         let pizzaData;
         
         try {
-            const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/pizza/${query.pizzaName}`)
+            //const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/pizza/${query.pizzaName}`)
+            const response = await axios.get(`http://localhost:3000/api/v1/pizza/${query.pizzaName}`)
             pizzaData = response.data[0];
         } catch {
             console.error('Error')

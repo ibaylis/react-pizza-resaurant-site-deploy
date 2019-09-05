@@ -177,7 +177,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MainLayout = function MainLayout(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_2___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("title", null, "Pizzeria"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("link", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_2___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("title", null, "Pizzeria"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    name: "keywords",
+    content: "pizza, ham, cheese, pepperoni, sausage"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    name: "description",
+    content: "Welcome to your pizza store"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    property: "og:title",
+    content: "Pizzeria"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    property: "og:locale",
+    content: "en_US"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    property: "og:url",
+    content: "".concat(props.baseUrl)
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    property: "og:type",
+    content: "website"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+    property: "og:description",
+    content: "Super awesome and tasty pizzas"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("link", {
     href: "https://fonts.googleapis.com/css?family=Overlock:400,700|Roboto:300,400,500,700&display=swap",
     rel: "stylesheet"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("link", {
@@ -252,9 +273,11 @@ function () {
     Object(_babel_runtime_corejs2_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_4__["default"])(this, Auth0);
 
     this.auth0 = new auth0_js__WEBPACK_IMPORTED_MODULE_6___default.a.WebAuth({
-      domain: nextpizzeria.auth0.com,
-      clientID: "".concat(publicRuntimeConfig.client_id),
-      redirectUri: "".concat(publicRuntimeConfig.base_url, "/login-success"),
+      domain: 'nextpizzeria.auth0.com',
+      //clientID: `${publicRuntimeConfig.client_id}`,
+      clientID: "http://localhost:3000/api/v1/pizza",
+      //redirectUri: `${publicRuntimeConfig.base_url}/login-success`,
+      redirectUri: "http://localhost:3000/api/v1/pizza/login-success",
       responseType: 'token id_token',
       scope: 'openid'
     });
@@ -375,6 +398,9 @@ function () {
                 return _context2.abrupt("return", false);
 
               case 14:
+                return _context2.abrupt("return", false);
+
+              case 15:
               case "end":
                 return _context2.stop();
             }
@@ -450,12 +476,16 @@ var auth0Serv = new Auth0();
 /*!**********************!*\
   !*** ./lib/utils.js ***!
   \**********************/
-/*! exports provided: getCooksFromReq */
+/*! exports provided: getCooksFromReq, getCookies */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCooksFromReq", function() { return getCooksFromReq; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookies", function() { return getCookies; });
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "js-cookie");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
+
 var getCooksFromReq = function getCooksFromReq(req, cookName) {
   var cooksList = {};
   var cookValue;
@@ -470,6 +500,15 @@ var getCooksFromReq = function getCooksFromReq(req, cookName) {
   } else {
     return undefined;
   }
+};
+var getCookies = function getCookies(req) {
+  var cooks;
+
+  if (false) {} else {
+    cooks = getCooksFromReq(req, 'x-jwt');
+  }
+
+  return cooks;
 };
 
 /***/ }),
@@ -499,6 +538,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "axios");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _lib_appAuth__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../lib/appAuth */ "./lib/appAuth.js");
+/* harmony import */ var next_config__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! next/config */ "next/config");
+/* harmony import */ var next_config__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(next_config__WEBPACK_IMPORTED_MODULE_13__);
 
 
 
@@ -511,6 +552,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+var _getConfig = next_config__WEBPACK_IMPORTED_MODULE_13___default()(),
+    publicRuntimeConfig = _getConfig.publicRuntimeConfig;
 
 var isServer = typeof window === 'undefined';
 var __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
@@ -539,60 +585,65 @@ function getOrCreateStore(initialState) {
           var _getInitialProps = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
           /*#__PURE__*/
           _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(appContext) {
-            var reduxStore, siteData, userAuth, appProps, response;
+            var siteData, userAuth, baseUrl, reduxStore, appProps, response;
             return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
               while (1) {
                 switch (_context.prev = _context.next) {
                   case 0:
-                    reduxStore = getOrCreateStore();
+                    baseUrl = publicRuntimeConfig.base_url; // Get or Create the store with 'undefined' as initialState
+                    // This allows you to set a custom default initialState
+
+                    reduxStore = getOrCreateStore(); // Provide the store to getInitialProps of pages
+
                     appContext.ctx.reduxStore = reduxStore;
                     appProps = {};
 
                     if (!(typeof App.getInitialProps === 'function')) {
-                      _context.next = 7;
+                      _context.next = 8;
                       break;
                     }
 
-                    _context.next = 6;
+                    _context.next = 7;
                     return App.getInitialProps(appContext);
 
-                  case 6:
+                  case 7:
                     appProps = _context.sent;
 
-                  case 7:
-                    _context.prev = 7;
-                    _context.next = 10;
+                  case 8:
+                    _context.prev = 8;
+                    _context.next = 11;
                     return axios__WEBPACK_IMPORTED_MODULE_11___default.a.get("http://localhost:3000/api/v1/site");
 
-                  case 10:
+                  case 11:
                     response = _context.sent;
                     siteData = response.data[0];
-                    _context.next = 17;
+                    _context.next = 18;
                     break;
 
-                  case 14:
-                    _context.prev = 14;
-                    _context.t0 = _context["catch"](7);
+                  case 15:
+                    _context.prev = 15;
+                    _context.t0 = _context["catch"](8);
                     console.error('Error');
 
-                  case 17:
-                    _context.next = 19;
+                  case 18:
+                    _context.next = 20;
                     return _lib_appAuth__WEBPACK_IMPORTED_MODULE_12__["default"].isAuthenticated(appContext.ctx.req);
 
-                  case 19:
+                  case 20:
                     userAuth = _context.sent;
                     return _context.abrupt("return", Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, appProps, {
                       siteData: siteData,
                       userAuth: userAuth,
+                      baseUrl: baseUrl,
                       initialReduxState: reduxStore.getState()
                     }));
 
-                  case 21:
+                  case 22:
                   case "end":
                     return _context.stop();
                 }
               }
-            }, _callee, null, [[7, 14]]);
+            }, _callee, null, [[8, 15]]);
           }));
 
           function getInitialProps(_x) {
@@ -1902,11 +1953,13 @@ function (_App) {
           pageProps = _this$props.pageProps,
           reduxStore = _this$props.reduxStore,
           siteData = _this$props.siteData,
-          userAuth = _this$props.userAuth;
+          userAuth = _this$props.userAuth,
+          baseUrl = _this$props.baseUrl;
       return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_6__["Container"], null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_9__["Provider"], {
         store: reduxStore
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_components_layouts_mainLayout__WEBPACK_IMPORTED_MODULE_10__["default"], {
-        userAuth: userAuth
+        userAuth: userAuth,
+        baseUrl: baseUrl
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
         siteData: siteData,
         userAuth: userAuth
@@ -2037,6 +2090,11 @@ __webpack_require__.r(__webpack_exports__);
         sentEmail: action.payload
       });
 
+    case _types__WEBPACK_IMPORTED_MODULE_1__["DELETE_MESSAGE"]:
+      return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+        messages: action.payload
+      });
+
     default:
       return state;
   }
@@ -2069,7 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************!*\
   !*** ./store/types.js ***!
   \************************/
-/*! exports provided: SEND_MESSAGE, CLEAR_MESSAGE, UPD_SITE */
+/*! exports provided: SEND_MESSAGE, CLEAR_MESSAGE, UPD_SITE, DELETE_MESSAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2077,9 +2135,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SEND_MESSAGE", function() { return SEND_MESSAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_MESSAGE", function() { return CLEAR_MESSAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPD_SITE", function() { return UPD_SITE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_MESSAGE", function() { return DELETE_MESSAGE; });
 var SEND_MESSAGE = 'send_message';
 var CLEAR_MESSAGE = 'clear_message';
 var UPD_SITE = 'upd_site';
+var DELETE_MESSAGE = 'delete_message';
 
 /***/ }),
 

@@ -8,11 +8,12 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig;
 
 class Home extends Component {
-    static async getInitialProps() {
+    static async getInitialProps(){
         let pizzasData;
 
         try {
-            const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/pizza`);
+            //const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/pizza`);
+            const response = await axios.get(`http://localhost:3000/api/v1/pizza`);
             pizzasData = response.data
         } catch {
             console.log('Error')
@@ -23,13 +24,12 @@ class Home extends Component {
         }
     }
 
-
     render(){
         const { pizzasData } = this.props;
         return(
             <>
-                <Featured pizzas={pizzasData} />
-                <PizzasList pizzas={pizzasData} />
+                <Featured pizzas={pizzasData}/>
+                <PizzasList pizzas={pizzasData}/>
             </>
         )
     }

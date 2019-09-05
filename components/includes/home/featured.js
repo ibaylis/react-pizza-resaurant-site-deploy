@@ -43,7 +43,7 @@ const Featured = (props) => {
             }
         })
     )
-    return showFeatured() 
+    return showFeatured();
 }
 
 export default Featured;

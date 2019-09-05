@@ -17,7 +17,8 @@ class AdminMeessages extends Component {
         let reqCook = getCookies(req);
 
         try {
-            const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/messages`,{
+            //const response = await axios.get(`${publicRuntimeConfig.base_url}/api/v1/messages`,{
+                const response = await axios.get(`http://localhost:3000/api/v1/messages`,{
                 headers:{
                     'authorization': `Bearer ${reqCook}`
                 }
