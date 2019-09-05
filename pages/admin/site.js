@@ -91,7 +91,7 @@ class AdminSite extends Component {
                     {
                         form.update ?
                             <div className="update"> 
-                                The Form Updated :)
+                                The Form Updated
                             </div>
                         :
 

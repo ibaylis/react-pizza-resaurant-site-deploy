@@ -3,6 +3,7 @@ const next = require('next');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const compression = require('compression')
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({dev});
@@ -36,6 +37,7 @@ const robotsOptions = {
 app.prepare()
    .then(()=>{
        const server = express();
+       server.use(compression());
        server.use(bodyParser.json());
 
        server.get('/robots.txt', (req, res) => {
@@ -87,7 +89,7 @@ app.prepare()
                 let newSite = site[0];
 
                 newSite.set(siteData);
-                newSite.save((err, sites)=> {
+                newSite.save((err, site)=> {
                     if (err) { return res.status(422).send(err) }
                     return res.json({update: 'DONE'})
                 })
@@ -100,7 +102,7 @@ app.prepare()
 
 
 ///// START MESSAGE /////
-        server.post('/api/v1/messages',servAuth.authJWT,(req,res)=>{
+        server.get('/api/v1/messages',servAuth.authJWT,(req,res)=>{
             Messages.find({},(err,allMessages)=>{
                 if(err) { return res.status(422).send(err) }
                 return res.json(allMessages)

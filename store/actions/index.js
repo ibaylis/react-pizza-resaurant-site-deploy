@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { SEND_MESSAGE, CLEAR_MESSAGE, UPD_SITE, DELETE_MESSAGE } from '../types';
 
 import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig;
+const { publicRuntimeConfig } = getConfig();
 
 const URL = `${publicRuntimeConfig.base_url}`;
 
@@ -25,7 +25,7 @@ export function SendMessage(data) {
  export function ClearMessage() {
     return {
         type: CLEAR_MESSAGE,
-        payload:''
+        payload: null
     }
  }
 

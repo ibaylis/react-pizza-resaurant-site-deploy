@@ -38,7 +38,7 @@ class Pizzas extends Component {
                             {pizzaData.fullDesc}
                         </div>
                         <div className="price">
-                            Get this pizza for ${pizzaData.price}
+                            Get this pizza for $ {pizzaData.price}
                         </div>
                     </div>
                 </div>
