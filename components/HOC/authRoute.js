@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function(Component){
-    return class AuthRoute extends React.Compoent {
+    return class AuthRoute extends React.Component {
         static async getInitialProps(ctx) {
             let pageProps = {}
 
