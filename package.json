@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "auth0-js": "^9.10.4",
+    "auth0-js": "^9.13.2",
     "axios": "^0.18.1",
     "body-parser": "^1.19.0",
     "chokidar": "^3.0.2",
